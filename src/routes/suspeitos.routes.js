@@ -9,10 +9,8 @@ let suspeitos = [
     profissao: "Estelionato",
     envGolpe: "Yes", // envolvimento em golpes
     idade: 22,
-    nivSusp: [
-        "Alto",
-        "Médio",
-        "Baixo"
+    nivSusp: [ "Alto"
+
 
     ] // nivel de suspeito
     },
