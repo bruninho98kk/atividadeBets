@@ -8,15 +8,13 @@ let suspeitos = [
     nome: "Big Boss",
     profissao: "Estelionato",
     envGolpe: "Yes", // envolvimento em golpes
-    idade: 22,
-    nivSusp: [ "Alto"
-
-
-    ] // nivel de suspeito
+    nivSusp:  "Alto"
+  
+    // nivel de suspeito
     },
 ];
 
-//rota pra buscar todas suspeitos
+//rota pra buscar todos suspeitos
 suspeitosRoutes.get("/", (req, res) => {
    return res.status(200).send(suspeitos)
 });
@@ -31,10 +29,10 @@ if(!nome || !profissao) {
         message: "O nome ou a profissao não foi preenchido",
     });
 } 
-    // validação de idade
-    if(nivSusp) {
+    // validação de periculosidade
+    if (!["Baixo", "Médio", "Alto"].includes(nivSusp)) {
         return res.status(400).send({
-            message: "O nível de suspeita é alto"
+            message: "O nível de suspeito não foi especificado"
         });
     }
 
@@ -67,23 +65,17 @@ suspeitosRoutes.get("/:id", (req, res) => {
 }
 
 
+  const crime = suspeitos.find((suspect) => suspect.id == id)
 
-
-
-
-
-
-  const emocao = suspeitos.find((emotion) => emotion.id == id)
-
-    if (!emocao) {
+    if (!crime) {
         return res.status(404).send({
-            message: "suspeito não encontrada!",
+            message: "suspeito não encontrado!",
         });
     }
 
 return res.status(200).send({
-    message: "suspeito encontrada",
-    emocao,
+    message: "suspeito encontrado",
+    crime,
 });
 
 });
@@ -91,37 +83,37 @@ return res.status(200).send({
 suspeitosRoutes.put("/:id", (req, res) => {
     const{ id } = req.params;
 
-    const emocao = suspeitos.find((emotion) => emotion.id = id);
-    if(!emocao) {
+    const crime = suspeitos.find((suspect) => suspect.id = id);
+    if(!crime) {
         return res.status(404).send({
-            message: "suspeito não encontra!"
+            message: "suspeito não encontrado!"
         })
     }
-    const {nome, cor} = req.body
-    emocao.nome = nome;
-    emocao.cor = cor;
+    const {nome, suspeito} = req.body
+    crime.nome = nome;
+    crime.estelionato = suspeito;
 
     return res.status(200).send({
-        message: "suspeito atualizada!",
-        emocao,
+        message: "suspeito atualizado!",
+        crime,
     })
 });
 
 suspeitosRoutes.delete("/:id", (req, res) => {
     const{ id } = req.params;
 
-    const emocao = suspeitos.find((emotion) => emotion.id = id);
-    if(!emocao) {
+    const crime = suspeitos.find((suspect) => suspect.id = id);
+    if(!crime) {
         return res.status(404).send({
-            message: "suspeito não encontrada!"
+            message: "suspeito deletado!"
         })
     }
 
-    suspeitos = suspeitos.filter((emotion) => emotion.id != id);
+    suspeitos = suspeitos.filter((suspect) => suspect.id != id);
     
     return res.status(200).send({
-        message: "suspeito deletada!",
-        emocao,
+        message: "suspeito deletado!",
+        crime,
     });
 });
 export default suspeitosRoutes;
